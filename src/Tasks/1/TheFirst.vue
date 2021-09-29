@@ -7,11 +7,10 @@ type tip = {
   totalPrice?: number
 }
 
-const overPrice = computed(new Controller('SO big',4))
+// const overPrice = computed(new Controller('SO big',4))
 const notification = useNotification()
 const tips = computed<tip[]>(()=>{
   return [
-     overPrice.value,
       {
     name: 'Большие',
     percent: 15,
@@ -43,7 +42,6 @@ const payBill = (billWithTip: number): void =>{
 
 <template>
   <n-alert title="Задание № 1" type="info">
-    000{{overPrice.totalPrice}}000
     Проблема. Получая чек в ресторане, Вы хотите дать "правильные" чаевые в
     зависимости от Вашего настроения - большие 15%, обычные 10-9% или "мелочь"
     3%
