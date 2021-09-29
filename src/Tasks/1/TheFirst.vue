@@ -1,5 +1,5 @@
 <script setup lang="ts" >
-import { ref, computed, reactive } from "vue";
+import {ref, computed, reactive, watch} from "vue";
 import {Controller, Procent} from "./index";
 import {useNotification} from "naive-ui";
 type tip = {
@@ -7,15 +7,21 @@ type tip = {
   totalPrice?: number
 }
 
-// const overPrice = computed(new Controller('SO big',4))
+//  сумма чека без чаевых
+const price = ref<null | number>(null);
+
+// тут убиваю Vue реактивность, но Controller использую
+const bigTip = new Controller('Большие',15)
+watch(price, (newValue, oldValue) => {
+  bigTip.totalPrice = newValue
+})
+
+
 const notification = useNotification()
+
+// Вариант без убивания реактивности
 const tips = computed<tip[]>(()=>{
   return [
-      {
-    name: 'Большие',
-    percent: 15,
-    totalPrice: Procent.countSumTrunc(price.value,15)
-  },
     {
       name: 'Средние',
       percent: 9,
@@ -29,7 +35,6 @@ const tips = computed<tip[]>(()=>{
   ]
 
 })
-const price = ref<null | number>(null);
 const payBill = (billWithTip: number): void =>{
   notification.success({
     title: 'Успешно оплачено',
@@ -57,6 +62,15 @@ const payBill = (billWithTip: number): void =>{
   <h4>
     Оплата
   </h4>
+  <div v-if="price">
+  <n-card hoverable class="card"   :title="`Чаевые: (${bigTip.name})`" >
+
+    <div class="card__content">
+      <n-button class="card__button" :disabled="!price" @click="payBill(bigTip.totalPrice)" type="primary">Заплатить  </n-button>
+      <p class="card__total-price">Расчет: {{bigTip.totalPrice.toLocaleString()}} руб.</p>
+    </div>
+  </n-card>
+  
   <n-card v-for="tip in tips" hoverable class="card" :key="tip.name" :title="`Чаевые: (${tip.name})`" >
 
     <div class="card__content">
@@ -64,6 +78,12 @@ const payBill = (billWithTip: number): void =>{
         <p class="card__total-price">Расчет: {{tip.totalPrice.toLocaleString()}} руб.</p>
     </div>
   </n-card>
+  </div>
+  <div v-else>
+    <n-alert type="warning">
+      Введите сумму
+    </n-alert>
+  </div>
 </template>
 
 <style scoped lang="scss">

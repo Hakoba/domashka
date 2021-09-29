@@ -28,10 +28,10 @@ class Controller {
   name: string;
   percent: number;
   _totalPrice: number;
-  constructor(name: string, percent: number) {
+  constructor(name: string, percent: number, totalPrice: number = 0) {
     this.name = name;
     this.percent = percent;
-    this._totalPrice = 0;
+    this._totalPrice = totalPrice;
   }
 
   get totalPrice(): number {
