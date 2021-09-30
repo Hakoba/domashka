@@ -3,6 +3,9 @@
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import {ruRU} from "naive-ui";
 import TheFirst from "./Tasks/1/TheFirst.vue";
+import AbstractSuperClass from "./Tasks/2/AbstractSuperClass.vue";
+
+
 </script>
 
 <template>
@@ -16,7 +19,8 @@ import TheFirst from "./Tasks/1/TheFirst.vue";
         >
         <n-layout-content content-style="padding: 24px;">
           <n-notification-provider>
-          <TheFirst  />
+            <abstract-super-class></abstract-super-class>
+<!--            <TheFirst  />-->
           </n-notification-provider>
         </n-layout-content>
       </n-layout>

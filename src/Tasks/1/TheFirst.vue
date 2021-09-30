@@ -1,5 +1,5 @@
 <script setup lang="ts" >
-import {ref, computed, reactive, watch} from "vue";
+import {ref, computed, watch} from "vue";
 import {Controller, Procent} from "./index";
 import {useNotification} from "naive-ui";
 type tip = {
@@ -46,6 +46,7 @@ const payBill = (billWithTip: number): void =>{
 </script>
 
 <template>
+
   <n-alert title="Задание № 1" type="info">
     Проблема. Получая чек в ресторане, Вы хотите дать "правильные" чаевые в
     зависимости от Вашего настроения - большие 15%, обычные 10-9% или "мелочь"
@@ -63,21 +64,21 @@ const payBill = (billWithTip: number): void =>{
     Оплата
   </h4>
   <div v-if="price">
-  <n-card hoverable class="card"   :title="`Чаевые: (${bigTip.name})`" >
+    <n-card hoverable class="card"   :title="`Чаевые: (${bigTip.name})`" >
 
-    <div class="card__content">
-      <n-button class="card__button" :disabled="!price" @click="payBill(bigTip.totalPrice)" type="primary">Заплатить  </n-button>
-      <p class="card__total-price">Расчет: {{bigTip.totalPrice.toLocaleString()}} руб.</p>
-    </div>
-  </n-card>
-  
-  <n-card v-for="tip in tips" hoverable class="card" :key="tip.name" :title="`Чаевые: (${tip.name})`" >
+      <div class="card__content">
+        <n-button class="card__button" :disabled="!price" @click="payBill(bigTip.totalPrice)" type="primary">Заплатить  </n-button>
+        <p class="card__total-price">Расчет: {{bigTip.totalPrice.toLocaleString()}} руб.</p>
+      </div>
+    </n-card>
 
-    <div class="card__content">
+    <n-card v-for="tip in tips" hoverable class="card" :key="tip.name" :title="`Чаевые: (${tip.name})`" >
+
+      <div class="card__content">
         <n-button class="card__button" :disabled="!price" @click="payBill(tip.totalPrice)" type="primary">Заплатить  </n-button>
         <p class="card__total-price">Расчет: {{tip.totalPrice.toLocaleString()}} руб.</p>
-    </div>
-  </n-card>
+      </div>
+    </n-card>
   </div>
   <div v-else>
     <n-alert type="warning">
