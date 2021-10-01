@@ -75,3 +75,68 @@ export class Circle extends Figure {
     ctx.fill();
   }
 }
+
+export class Ellipse extends Figure {
+  public isDragging: boolean = false;
+  constructor(
+    public radiusX: number,
+    public radiusY: number,
+    color: Color = "#e3ea21",
+    public x: number = 20,
+    public y: number = 20
+  ) {
+    super(color);
+    this.radiusX = radiusX;
+    this.radiusY = radiusY;
+    this.x = x;
+    this.y = y;
+  }
+
+  getArea(): number {
+    let square = Math.PI * 222 ** 2;
+    return square;
+  }
+
+  drawFigure(ctx: CanvasRenderingContext2D): void {
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.ellipse(this.x, this.y, this.radiusX, this.radiusY, 0, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fill();
+  }
+}
+
+export class Huita extends Figure {
+  public isDragging: boolean = false;
+  constructor(
+    public width: number,
+    public height: number,
+    public borderRadius: number,
+    color: Color = "#e3ea21",
+    public x: number = 10,
+    public y: number = 10
+  ) {
+    super(color);
+    this.width = width;
+    this.borderRadius = borderRadius;
+    this.height = height;
+    this.x = x;
+    this.y = y;
+  }
+
+  getArea(): number {
+    let square = this.width * this.height;
+    return square;
+  }
+
+  drawFigure(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.strokeStyle = this.color;
+    ctx.lineJoin = "round";
+    ctx.lineWidth = this.borderRadius;
+    ctx.stroke();
+  }
+}

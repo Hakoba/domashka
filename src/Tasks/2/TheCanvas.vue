@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Circle, Figure, Rectangle} from "../2";
+import {Circle, Ellipse, Figure, Huita, Rectangle} from "../2";
 import { onMounted, ref, reactive } from "vue";
 // Dialog
 const showModal = ref<boolean>(false);
@@ -44,6 +44,13 @@ const myDown =(e) => {
       }
     }else if(figure.radius ){
       if ( Math.abs (mx - figure.x) < figure.radius  && Math.abs (my - figure.y) < figure.radius) {
+        // if yes, set that figures isDragging=true
+        dragok = true;
+        figure.isDragging = true;
+      }
+    }
+    else if(figure.radiusX ){
+      if ( Math.abs (mx - figure.x) < figure.radiusX  && Math.abs (my - figure.y) < figure.radiusY) {
         // if yes, set that figures isDragging=true
         dragok = true;
         figure.isDragging = true;
@@ -131,8 +138,12 @@ onMounted(() => {
 
     let rect: Figure = new Rectangle(50, 70, "#eeeeeebb", 20, 30, );
     let circle: Figure = new Circle(15, "#11eeeebb", 90, 150, );
+    let ellipse: Figure = new Ellipse(40,25, "#e324a188", 200, 190, );
+    let hii: Figure = new Huita(90,45,20, "#e324a1", 120, 290, );
     figures.push(rect);
     figures.push(circle);
+    figures.push(ellipse);
+    figures.push(hii);
     render()
   }
 });
