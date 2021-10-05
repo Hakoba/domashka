@@ -4,8 +4,7 @@
 import {ruRU} from "naive-ui";
 import TheFirst from "./Tasks/1/TheFirst.vue";
 import AbstractSuperClass from "./Tasks/2/AbstractSuperClass.vue";
-
-
+import Factory from "./Tasks/3/Factory.vue";
 </script>
 
 <template>
@@ -19,7 +18,8 @@ import AbstractSuperClass from "./Tasks/2/AbstractSuperClass.vue";
         >
         <n-layout-content content-style="padding: 24px;">
           <n-notification-provider>
-            <abstract-super-class></abstract-super-class>
+            <factory></factory>
+<!--            <abstract-super-class></abstract-super-class>-->
 <!--            <TheFirst  />-->
           </n-notification-provider>
         </n-layout-content>
