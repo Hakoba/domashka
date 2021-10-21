@@ -5,6 +5,4 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig({
   plugins: [vue()],
   base: "https://hakoba.github.io/domashka/",
-  // @ts-ignore
-  publicPath: process.env.NODE_ENV === "production" ? "/domashka/" : "/",
 });
