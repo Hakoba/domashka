@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useNotification } from "naive-ui";
 import TheCanvas from "./TheCanvas.vue";
+
 const notification = useNotification();
 
 </script>
+
 
 <template>
   <n-alert title="Задание № 3" type="info">

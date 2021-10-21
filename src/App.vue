@@ -1,10 +1,25 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import {ruRU} from "naive-ui";
+<script lang="ts">
+import Factory from "./Tasks/3/Factory.vue";
 import TheFirst from "./Tasks/1/TheFirst.vue";
 import AbstractSuperClass from "./Tasks/2/AbstractSuperClass.vue";
-import Factory from "./Tasks/3/Factory.vue";
+import {defineComponent} from "vue";
+export default defineComponent( {
+  components: {
+    Factory,
+    TheFirst,
+    AbstractSuperClass
+  }
+})
+</script>
+<script setup lang="ts">
+import {ruRU} from "naive-ui";
+
+import {ref} from "vue";
+const labs = [
+  'the-first','abstract-super-class','factory'
+]
+const currentLab = ref<string>('the-first')
+
 </script>
 
 <template>
@@ -12,15 +27,39 @@ import Factory from "./Tasks/3/Factory.vue";
   <n-config-provider :locale="ruRU">
     <n-space vertical size="large">
       <n-layout>
+
         <n-layout-header
           >Современные технологии разработки программного
           обеспечения</n-layout-header
         >
+
         <n-layout-content content-style="padding: 24px;">
+          <n-list bordered>
+            <template #header> Лабы </template>
+            <n-list-item>
+
+              <n-thing title="Номера лаб" >
+                <n-radio-group v-model:value="currentLab" name="radiobuttongroup1">
+                  <n-radio-button
+                      v-for="lab in labs"
+                      :key="lab"
+                      :value="lab"
+                  >
+                    {{ lab }}
+                  </n-radio-button>
+                </n-radio-group>
+
+
+
+              </n-thing>
+            </n-list-item>
+          </n-list>
+          {{currentLab}}
           <n-notification-provider>
-            <factory></factory>
-<!--            <abstract-super-class></abstract-super-class>-->
-<!--            <TheFirst  />-->
+            <keep-alive>
+            <component :is="currentLab" />
+            </keep-alive>
+
           </n-notification-provider>
         </n-layout-content>
       </n-layout>
