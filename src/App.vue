@@ -38,7 +38,7 @@ const currentLab = ref<string>('the-first')
             <template #header> Лабы </template>
             <n-list-item>
 
-              <n-thing title="Номера лаб" >
+              <n-thing >
                 <n-radio-group v-model:value="currentLab" name="radiobuttongroup1">
                   <n-radio-button
                       v-for="lab in labs"
@@ -54,7 +54,6 @@ const currentLab = ref<string>('the-first')
               </n-thing>
             </n-list-item>
           </n-list>
-          {{currentLab}}
           <n-notification-provider>
             <keep-alive>
             <component :is="currentLab" />
