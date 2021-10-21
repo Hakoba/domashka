@@ -8,6 +8,9 @@ const notification = useNotification();
 
 
 <template>
+  <n-dialog-provider>
+  <the-canvas></the-canvas>
+  </n-dialog-provider>
   <n-alert title="Задание № 3" type="info">
     <p style="text-transform: lowercase">
       Требуется написать программу, которая  рисует фигуру по заданному пользователем числу сторон
@@ -15,9 +18,6 @@ const notification = useNotification();
     (0-круг, 1-отрезок, 2-угол, 3-треугольник и т.д)
   </n-alert>
   <br />
-  <n-dialog-provider>
-  <the-canvas></the-canvas>
-  </n-dialog-provider>
 </template>
 
 <style scoped lang="scss">

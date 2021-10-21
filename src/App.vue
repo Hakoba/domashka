@@ -28,38 +28,39 @@ const currentLab = ref<string>('the-first')
     <n-space vertical size="large">
       <n-layout>
 
-        <n-layout-header
-          >Современные технологии разработки программного
-          обеспечения</n-layout-header
+        <n-layout-header style="display: flex"
+          ><span>Современные технологии разработки программного
+          обеспечения</span>
+          <n-radio-group v-model:value="currentLab" name="radiobuttongroup1">
+            <n-radio-button
+                v-for="lab in labs"
+                :key="lab"
+                :value="lab"
+            >
+              {{ lab }}
+            </n-radio-button>
+          </n-radio-group>
+        </n-layout-header
         >
 
         <n-layout-content content-style="padding: 24px;">
+          <n-notification-provider>
+            <component :is="currentLab" />
+
+          </n-notification-provider>
           <n-list bordered>
             <template #header> Лабы </template>
             <n-list-item>
 
               <n-thing >
-                <n-radio-group v-model:value="currentLab" name="radiobuttongroup1">
-                  <n-radio-button
-                      v-for="lab in labs"
-                      :key="lab"
-                      :value="lab"
-                  >
-                    {{ lab }}
-                  </n-radio-button>
-                </n-radio-group>
+
 
 
 
               </n-thing>
             </n-list-item>
           </n-list>
-          <n-notification-provider>
-            <keep-alive>
-            <component :is="currentLab" />
-            </keep-alive>
 
-          </n-notification-provider>
         </n-layout-content>
       </n-layout>
     </n-space>

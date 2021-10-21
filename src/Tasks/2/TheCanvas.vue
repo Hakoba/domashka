@@ -17,9 +17,37 @@ let startY: number;
 const clear = () => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 };
-const addFigure = (color: Color) => {
+const  getRandomInt = (min: number, max: number): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+const addFigure = (figure) => {
   clear();
-  figures.push(new Rectangle(40, 50, currentColor.value));
+  let shape;
+  switch (figure) {
+    case 'rect': {
+      shape = new Rectangle(getRandomInt(10,60), getRandomInt(20,59), "#eeeeeebb", getRandomInt(20,280), getRandomInt(20,280) );
+      break;
+    }
+    case 'circle': {
+      shape = new Circle(getRandomInt(10,60), "#11eeeebb", getRandomInt(20,280), getRandomInt(20,280), );
+      break;
+    }
+    case 'ellipse': {
+      shape = new Ellipse(getRandomInt(10,60),getRandomInt(10,60), "#e324a188", getRandomInt(20,280), getRandomInt(20,280), );
+      break;
+    }
+    case 'square': {
+      shape = new Huita(getRandomInt(10,60),getRandomInt(10,60),20, "#e324a1", getRandomInt(20,280), getRandomInt(20,280), );
+      break;
+    }
+    default:{
+      shape = new Rectangle(getRandomInt(10,60), getRandomInt(10,60), "#eeeeeebb", getRandomInt(20,280), getRandomInt(20,280), );
+
+    }
+  }
+  figures.push(shape);
   render()
 };
 // handle mousedown events
@@ -27,7 +55,6 @@ const myDown =(e:MouseEvent) => {
   // tell the browser we're handling this mouse event
   e.preventDefault();
   e.stopPropagation();
-
   // get the current mouse position
   const mx = (e.clientX - offsetX);
   const my = (e.clientY - offsetY);
@@ -150,26 +177,24 @@ onMounted(() => {
 });
 </script>
 <template>
-  <n-card title="CANVAS">
-    <canvas ref="canvas" id="canvasId" width="400" height="400"></canvas>
-    <n-button @click="showModal = true"> SHowModal </n-button>
-    <n-modal v-model:show="showModal">
+  <div style="display: flex">
+
+    <n-card title="CANVAS">
+      <canvas ref="canvas" id="canvasId" width="400" height="400"></canvas>
+
+    </n-card>
       <n-card style="width: 600px" title="Modal" :bordered="false" size="huge">
-        <template #header-extra>
-          <p @click="showModal = false">XX</p>
-        </template>
-        <n-color-picker v-model:value="currentColor"></n-color-picker>
-        <n-input placeholder="x" v-model:value="figureType"></n-input>
-        <template #footer>
-          <n-space justify="end">
-            <n-button @click="addFigure(currentColor, figureType)"
-              >Создать</n-button
-            >
-          </n-space></template
-        >
+        выберите фигуру
+        <n-button-group>
+        <n-button @click="addFigure('rect')">'rect'</n-button>
+        <n-button @click="addFigure('circle')">'circle'</n-button>
+        <n-button @click="addFigure('ellipse')">'ellipse'</n-button>
+        <n-button @click="addFigure('square')">'square'</n-button>
+        </n-button-group>
+
       </n-card>
-    </n-modal>
-  </n-card>
+  </div>
+
 </template>
 
 <style scoped lang="scss">

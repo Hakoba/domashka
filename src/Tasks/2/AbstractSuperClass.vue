@@ -6,6 +6,12 @@ const notification = useNotification();
 </script>
 
 <template>
+
+  <n-dialog-provider>
+  <the-canvas></the-canvas>
+  </n-dialog-provider>
+  <br />
+
   <n-alert title="Задание № 2" type="info">
     <p style="text-transform: lowercase">
       ТРЕБУЕТСЯ НАПИСАТЬ ПРОГРАММУ, КОТОРАЯ РЕАЛИЗУЕТ СЛЕДУЮЩУЮ ИЕРАРХИЮ ДЛЯ
@@ -26,10 +32,6 @@ const notification = useNotification();
       <li>элементы И, ИЛИ, НЕ, ИЛИ-НЕ, И-НЕ (построитель цифровых схем).</li>
     </ul>
   </n-alert>
-  <br />
-  <n-dialog-provider>
-  <the-canvas></the-canvas>
-  </n-dialog-provider>
 </template>
 
 <style scoped lang="scss">

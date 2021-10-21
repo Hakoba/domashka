@@ -7,7 +7,7 @@ const notification = useNotification();
 // Dialog
 const showModal = ref<boolean>(false);
 const currentColor = ref("#777777bb");
-const figureType = ref<number>(2);
+const figureType = ref<number>(0);
 
 //Canvas
 const canvas = ref<HTMLCanvasElement | null>(null);
@@ -168,11 +168,9 @@ onMounted(() => {
     <canvas ref="canvas" id="canvasId" width="400" height="400"></canvas>
 
   </n-card>
-  <n-card style="width: 50vw" title="Modal" :bordered="false" size="huge">
-    <template #header-extra>
-      <p @click="showModal = false">XX</p>
-    </template>
-    <n-color-picker v-model:value="currentColor"></n-color-picker>
+  <n-card style="width: 50vw" title="Добавление фигуры" :bordered="false" size="huge">
+
+    <h5>Выберите колличество сторон</h5>
     <n-input placeholder="x" type="number" v-model:value="figureType"></n-input>
     <template #footer>
       <n-space justify="end">
