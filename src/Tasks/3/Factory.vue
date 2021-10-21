@@ -6,11 +6,11 @@ const notification = useNotification();
 </script>
 
 <template>
-  <n-alert title="Задание № 2" type="info">
+  <n-alert title="Задание № 3" type="info">
     <p style="text-transform: lowercase">
       Требуется написать программу, которая  рисует фигуру по заданному пользователем числу сторон
     </p>
-    Разработайте пользовательский интерфейс в соответствии с представленной раскадровкой (
+    (0-круг, 1-отрезок, 2-угол, 3-треугольник и т.д)
   </n-alert>
   <br />
   <n-dialog-provider>

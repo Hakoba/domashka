@@ -1,28 +1,25 @@
-type Color = string;
+export type Color = string;
 
-
-abstract class ShapeFactory{
+export class ShapeFactory {
   create(numberOfSide: number): Figure {
-
+    if (numberOfSide == 0) {
+      return new Circle(15, "#11eeeebb", 90, 150);
+    }
     if (numberOfSide == 1) {
-      return new Circle();
+      return new Segment(40, "#e324a188", 190, 190);
+    }
+    if (numberOfSide == 2) {
+      return new Angle(40, 15, "#e324a188", 19, 190);
     }
     if (numberOfSide == 3) {
-      return new Triangle();
-
+      return new Triangle(50, 90, "#e324a188", 250, 300);
     } else if (numberOfSide == 4) {
-      return new Rectangle();
-
-    } else if (numberOfSide == 5) {
-      return new Pentagon();
-    }
-    else {
-      throw new Error('Не правильное колличество сторон')
+      return new Rectangle(50, 70, "#eeeeeebb", 20, 30);
+    } else {
+      throw new Error("Не правильное колличество сторон");
     }
   }
-
 }
-
 
 export abstract class Figure {
   get color(): Color {
@@ -42,8 +39,6 @@ export abstract class Figure {
     this._color = color;
   }
 }
-
-
 
 export class Rectangle extends Figure {
   public isDragging: boolean = false;
@@ -164,6 +159,104 @@ export class Huita extends Figure {
     ctx.strokeStyle = this.color;
     ctx.lineJoin = "round";
     ctx.lineWidth = this.borderRadius;
+    ctx.stroke();
+  }
+}
+
+export class Triangle extends Figure {
+  public isDragging: boolean = false;
+  constructor(
+    public katet1: number,
+    public katet2: number,
+    color: Color = "#e3ea21",
+    public x: number = 10,
+    public y: number = 10
+  ) {
+    super(color);
+    this.katet1 = katet1;
+    this.katet2 = katet2;
+    this.x = x;
+    this.y = y;
+  }
+
+  getArea(): number {
+    let square = (this.katet1 * this.katet2) / 2;
+    return square;
+  }
+
+  drawFigure(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x, this.y + this.katet1);
+    ctx.lineTo(this.y + this.katet1, this.x + this.katet2);
+    ctx.closePath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+export class Segment extends Figure {
+  public isDragging: boolean = false;
+  constructor(
+    public a: number,
+    color: Color = "#e3ea21",
+    public x: number = 10,
+    public y: number = 10
+  ) {
+    super(color);
+    this.a = a;
+    this.x = x;
+    this.y = y;
+  }
+
+  getArea(): number {
+    let square = this.a;
+    return square;
+  }
+
+  drawFigure(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x, this.y + this.a);
+    ctx.closePath();
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+export class Angle extends Figure {
+  public isDragging: boolean = false;
+  constructor(
+    public a: number,
+    public b: number,
+    color: Color = "#e3ea21",
+    public x: number = 10,
+    public y: number = 10
+  ) {
+    super(color);
+    this.a = a;
+    this.b = b;
+    this.x = x;
+    this.y = y;
+  }
+
+  getArea(): number {
+    let square = this.a;
+    return square;
+  }
+
+  drawFigure(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x, this.y + this.a);
+    ctx.lineTo(this.x + this.a, this.y + this.b);
+    ctx.strokeStyle = this.color;
     ctx.stroke();
   }
 }

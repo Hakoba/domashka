@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Circle, Ellipse, Figure, Huita, Rectangle} from "../2";
+import {Circle, Color, Ellipse, Figure, Huita, Rectangle} from "../2";
 import { onMounted, ref, reactive } from "vue";
 // Dialog
 const showModal = ref<boolean>(false);
@@ -7,30 +7,30 @@ const currentColor = ref("#777777bb");
 const figureType = ref<string>('Rectangle');
 
 //Canvas
-const canvas = ref(null);
-let ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
+const canvas = ref<HTMLCanvasElement | null>(null);
+let ctx: CanvasRenderingContext2D, BB, offsetX: number, offsetY: number, WIDTH : number, HEIGHT : number;
 // drag related variables
 let dragok = false;
-let startX;
-let startY;
+let startX: number;
+let startY: number;
 
 const clear = () => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 };
-const addFigure = (color: Color,type) => {
+const addFigure = (color: Color) => {
   clear();
   figures.push(new Rectangle(40, 50, currentColor.value));
   render()
 };
 // handle mousedown events
-const myDown =(e) => {
+const myDown =(e:MouseEvent) => {
   // tell the browser we're handling this mouse event
   e.preventDefault();
   e.stopPropagation();
 
   // get the current mouse position
-  const mx = parseInt(e.clientX - offsetX);
-  const my = parseInt(e.clientY - offsetY);
+  const mx = (e.clientX - offsetX);
+  const my = (e.clientY - offsetY);
 
   // test each rect to see if mouse is inside
   dragok = false;
@@ -77,7 +77,7 @@ const myUp = (e) => {
 }
 
 // handle mouse moves
-const myMove = (e) => {
+const myMove = (e: MouseEvent) => {
   // if we're dragging anything...
   if (dragok) {
     // tell the browser we're handling this mouse event
@@ -85,8 +85,8 @@ const myMove = (e) => {
     e.stopPropagation();
 
     // get the current mouse position
-    const mx = parseInt(e.clientX - offsetX);
-    const my = parseInt(e.clientY - offsetY);
+    const mx = (e.clientX - offsetX);
+    const my = (e.clientY - offsetY);
 
     // calculate the distance the mouse has moved
     // since the last mousemove
@@ -120,10 +120,11 @@ const render = () => {
   }
 };
 
-let figures = reactive([]);
+let figures = reactive<Figure[]>([]);
 onMounted(() => {
   // the DOM element will be assigned to the ref after initial render
-  if (canvas.value.getContext) {
+  if (canvas.value && canvas.value.getContext) {
+    //@ts-ignore
     ctx = canvas.value.getContext("2d");
     BB = canvas.value.getBoundingClientRect();
     offsetX = BB.left;

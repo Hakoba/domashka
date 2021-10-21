@@ -1,4 +1,4 @@
-type Color = string;
+export type Color = string;
 
 export abstract class Figure {
   get color(): Color {

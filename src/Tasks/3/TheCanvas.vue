@@ -1,36 +1,47 @@
 <script setup lang="ts">
-import {Circle, Ellipse, Figure, Huita, Rectangle} from "../2";
+import { Color, Ellipse, Huita, Rectangle, ShapeFactory, Triangle} from "../3";
 import { onMounted, ref, reactive } from "vue";
+import {useNotification} from "naive-ui";
+const notification = useNotification();
+
 // Dialog
 const showModal = ref<boolean>(false);
 const currentColor = ref("#777777bb");
-const figureType = ref<string>('Rectangle');
+const figureType = ref<number>(2);
 
 //Canvas
-const canvas = ref(null);
-let ctx, BB, offsetX, offsetY, WIDTH, HEIGHT;
+const canvas = ref<HTMLCanvasElement | null>(null);
+let ctx: CanvasRenderingContext2D, BB, offsetX: number, offsetY: number, WIDTH : number, HEIGHT : number;
 // drag related variables
-let dragok = false;
-let startX;
-let startY;
-
+let dragok: boolean = false;
+let startX: number;
+let startY: number;
+const factory = new ShapeFactory();
 const clear = () => {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 };
-const addFigure = (color: Color,type) => {
-  clear();
-  figures.push(new Rectangle(40, 50, currentColor.value));
-  render()
+const addFigure = (color: Color) => {
+    clear()
+    try {
+      figures.push(factory.create(figureType.value));
+
+    }
+    catch (e){
+        console.error(e.toString())
+      notification.error({title: 'Ошибка',content: e.toString()})
+    }
+    render()
+
 };
 // handle mousedown events
-const myDown =(e) => {
+const myDown =(e:MouseEvent) => {
   // tell the browser we're handling this mouse event
   e.preventDefault();
   e.stopPropagation();
 
   // get the current mouse position
-  const mx = parseInt(e.clientX - offsetX);
-  const my = parseInt(e.clientY - offsetY);
+  const mx = (e.clientX - offsetX);
+  const my = (e.clientY - offsetY);
 
   // test each rect to see if mouse is inside
   dragok = false;
@@ -64,7 +75,7 @@ const myDown =(e) => {
 }
 
 // handle mouseup events
-const myUp = (e) => {
+const myUp = (e: MouseEvent) => {
   // tell the browser we're handling this mouse event
   e.preventDefault();
   e.stopPropagation();
@@ -77,7 +88,7 @@ const myUp = (e) => {
 }
 
 // handle mouse moves
-const myMove = (e) => {
+const myMove = (e: MouseEvent) => {
   // if we're dragging anything...
   if (dragok) {
     // tell the browser we're handling this mouse event
@@ -85,8 +96,8 @@ const myMove = (e) => {
     e.stopPropagation();
 
     // get the current mouse position
-    const mx = parseInt(e.clientX - offsetX);
-    const my = parseInt(e.clientY - offsetY);
+    const mx = (e.clientX - offsetX);
+    const my = (e.clientY - offsetY);
 
     // calculate the distance the mouse has moved
     // since the last mousemove
@@ -120,10 +131,15 @@ const render = () => {
   }
 };
 
-let figures = reactive([]);
+let figures = reactive<Rectangle[] |
+Circle[] |
+Ellipse[] |
+Huita[] |
+Triangle[]>([]);
 onMounted(() => {
   // the DOM element will be assigned to the ref after initial render
-  if (canvas.value.getContext) {
+  if (canvas.value && canvas.value.getContext) {
+    //@ts-ignore
     ctx = canvas.value.getContext("2d");
     BB = canvas.value.getBoundingClientRect();
     offsetX = BB.left;
@@ -136,39 +152,37 @@ onMounted(() => {
     canvas.value .onmouseup = myUp;
     canvas.value .onmousemove = myMove;
 
-    let rect: Figure = new Rectangle(50, 70, "#eeeeeebb", 20, 30, );
-    let circle: Figure = new Circle(15, "#11eeeebb", 90, 150, );
-    let ellipse: Figure = new Ellipse(40,25, "#e324a188", 200, 190, );
-    let hii: Figure = new Huita(90,45,20, "#e324a1", 120, 290, );
-    figures.push(rect);
-    figures.push(circle);
-    figures.push(ellipse);
-    figures.push(hii);
+
+    // figures.push(factory.create(0) );
+    // figures.push(factory.create(1) );
+    // figures.push(factory.create(2) );
+    // figures.push(factory.create(3));
+    // figures.push(factory.create(4));
     render()
   }
 });
 </script>
 <template>
-  <n-card title="CANVAS">
+  <div style="display: flex;">
+  <n-card title="CANVAS" style="display: flex">
     <canvas ref="canvas" id="canvasId" width="400" height="400"></canvas>
-    <n-button @click="showModal = true"> SHowModal </n-button>
-    <n-modal v-model:show="showModal">
-      <n-card style="width: 600px" title="Modal" :bordered="false" size="huge">
-        <template #header-extra>
-          <p @click="showModal = false">XX</p>
-        </template>
-        <n-color-picker v-model:value="currentColor"></n-color-picker>
-        <n-input placeholder="x" v-model:value="figureType"></n-input>
-        <template #footer>
-          <n-space justify="end">
-            <n-button @click="addFigure(currentColor, figureType)"
-              >Создать</n-button
-            >
-          </n-space></template
-        >
-      </n-card>
-    </n-modal>
+
   </n-card>
+  <n-card style="width: 50vw" title="Modal" :bordered="false" size="huge">
+    <template #header-extra>
+      <p @click="showModal = false">XX</p>
+    </template>
+    <n-color-picker v-model:value="currentColor"></n-color-picker>
+    <n-input placeholder="x" type="number" v-model:value="figureType"></n-input>
+    <template #footer>
+      <n-space justify="end">
+        <n-button @click="addFigure(currentColor, figureType)"
+        >Создать</n-button
+        >
+      </n-space></template
+    >
+  </n-card>
+  </div>
 </template>
 
 <style scoped lang="scss">
