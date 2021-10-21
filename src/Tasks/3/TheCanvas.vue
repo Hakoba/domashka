@@ -43,7 +43,6 @@ const myDown =(e:MouseEvent) => {
   const mx = (e.clientX - offsetX);
   const my = (e.clientY - offsetY);
 
-  // test each rect to see if mouse is inside
   dragok = false;
   for (let i = 0; i < figures.length; i++) {
     const figure = figures[i];
